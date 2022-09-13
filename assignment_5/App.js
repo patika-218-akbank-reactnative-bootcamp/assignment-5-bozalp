@@ -1,12 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreens from './src/Pages/HomeScreens';
+
+import { Provider } from 'react-redux';
+import { store } from "./src/Toolkits/store";
+import { setDark, setLight } from './src/Toolkits/themeSlice';
+import lightTheme from './src/Themes/light';
+import darkTheme from './src/Themes/dark';
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="HomeScreens" component={HomeScreens} options={{
+            headerShown: false
+          }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
