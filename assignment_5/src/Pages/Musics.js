@@ -16,8 +16,8 @@ const Musics = () => {
                // .get('https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=&apikey=8159142c43bf8b82be3a1d09e28e1837');
                // .get('https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=1039&s_release_date=desc&g_album_name=1&apikey=8159142c43bf8b82be3a1d09e28e1837');
             setLoading(false);
-            console.log(response.data.message.body.artist_list);
-            setMusicList(response.data.message.body.artist_list);
+           // console.log(response.data.message.body.artist_list);
+            //setMusicList(response.data.message.body.artist_list);
         }
         catch (error) {
             console.log(error.toString());

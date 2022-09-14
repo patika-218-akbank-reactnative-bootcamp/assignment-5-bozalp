@@ -1,6 +1,6 @@
 export default {
     title:'dark',
-    backgroundColor: 'black',
+    backgroundColor: '#283142',
     color: 'white',
     grayBackground:'#20232a',
 }
