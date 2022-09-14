@@ -1,75 +1,70 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
-
+import { firebaseConfig } from '../firebaseConfig';
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import TextBox from '../Components/TextBox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-const SignUp = ({ navigation }) => {
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBGAZAFZ2bOh18kQhDamufyNxkuLooq4WU",
-        authDomain: "musicapp-96109.firebaseapp.com",
-        projectId: "musicapp-96109",
-        storageBucket: "musicapp-96109.appspot.com",
-        messagingSenderId: "5762728566",
-        appId: "1:5762728566:web:aa5ce65f3a13b4de815557",
-        measurementId: "G-BE3B1DZVX7"
-    };
+const SignIn = ({ navigation }) => {
 
     const app = initializeApp(firebaseConfig);
-
     const auth = getAuth(app);
     const theme = useSelector((state) => state.theme.theme);
 
-    const [email, setMail] = useState(null);
-    const [password, setPassword] = useState(null);
-    const [passwordAgain, setPasswordAgain] = useState(null);
-    const [username, setUsername] = useState(null);
+    const [email, setMail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleSignUp = () => {
-        createUserWithEmailAndPassword(auth, email, password)
+    const handleSignIn = () => {
+        signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
+
+                console.log("giris basarili");
                 console.log(user.email);
-                navigation.navigate("SignIn");
+                console.log(user.password);
+                //setNewUser(email = user.email, password = user.password);
+                setUserStorage();
+                navigation.navigate("HomeScreens");
             })
             .catch(error => Alert.alert(error.message));
     }
-    function handleGoSignIn() {
-        navigation.navigate("SignIn");
+
+    const setUserStorage = async () => {
+        await AsyncStorage.setItem('email', email);
+        await AsyncStorage.setItem('password', password);
+    };
+    function handleGoSignUp() {
+        navigation.navigate("SignUp");
     }
 
     return (
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-            <Text style={[styles.header, { color: theme.color, paddingTop: 30, letterSpacing: 5 }]}>Best Music App</Text>
+            <Text style={[styles.header, { color: theme.color, padding: 30, letterSpacing: 5 }]}>Best Music App</Text>
             <View style={{ margin: 10, }}>
-                <Text style={{ color: theme.color, paddingBottom: 30 }}>Create Account</Text>
+                <Text style={{ color: theme.color, paddingBottom: 30 }}>Login</Text>
 
-                <TextBox title="UserName" value={username} onChangeText={setUsername} />
                 <TextBox title="E-Mail" value={email} onChangeText={setMail} />
                 <TextBox title="Password" value={password} onChangeText={setPassword} secureText={true} />
-                <TextBox title="Password (Again)" value={passwordAgain} onChangeText={setPasswordAgain} secureText={true} />
 
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={[styles.button, { borderColor: theme.color, backgroundColor: '#19c790' }]}
-                    onPress={() => handleSignUp()}>
+                    onPress={() => handleSignIn()}>
                     <Text style={{ color: theme.color, textAlign: 'center' }}>
-                        Create Account
+                        Login
                     </Text>
                 </TouchableOpacity>
                 <Text style={{ color: theme.color, textAlign: 'center' }}>
-                    Do you have an account?
+                    Don't you have an account?
                 </Text>
                 <TouchableOpacity
                     activeOpacity={0.8}
-                    style={[styles.button, { borderColor: theme.color, backgroundColor: theme.backgroundColor  }]}
-                    onPress={() => handleGoSignIn()}>
+                    style={[styles.button, { borderColor: theme.color, backgroundColor: theme.backgroundColor }]}
+                    onPress={() => handleGoSignUp()}>
                     <Text style={{ color: theme.color, textAlign: 'center' }}>
-                        Sign In
+                        Create Account
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -107,4 +102,4 @@ const styles = StyleSheet.create(
         }
     }
 );
-export default SignUp;
+export default SignIn;

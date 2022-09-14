@@ -4,6 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreens from './src/Pages/HomeScreens';
 import SignUp from './src/Pages/SignUp';
+import SignIn from './src/Pages/SignIn';
+import SplashScreen from './src/Pages/SplashScreen';
+import Theme from './src/Pages/Settings/Theme';
 
 import { Provider } from 'react-redux';
 import { store } from "./src/Toolkits/store";
@@ -17,7 +20,13 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="SplashScreen" component={SplashScreen} options={{
+            headerShown: false
+          }} />
           <Stack.Screen name="SignUp" component={SignUp} options={{
+            headerShown: false
+          }} />
+          <Stack.Screen name="SignIn" component={SignIn} options={{
             headerShown: false
           }} />
           <Stack.Screen name="HomeScreens" component={HomeScreens} options={{

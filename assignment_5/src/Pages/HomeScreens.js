@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SettingsScreen from './Settings/SettingsScreen';
+import SettingStack from './Settings/SettingStack';
 import Musics from './Musics';
 import Search from './Search';
 import Icons from '@expo/vector-icons/Ionicons';
@@ -21,7 +21,7 @@ const HomeScreens = () => {
                     <Icons name='search' size={24} color={color} />
                 )
             }} />
-            <Tab.Screen name="Settings" component={SettingsScreen}options={{
+            <Tab.Screen name="Settings" component={SettingStack}options={{
                 tabBarIcon: ({ color }) => (
                     <Icons name='settings-outline' size={24} color={color} />
                 )
