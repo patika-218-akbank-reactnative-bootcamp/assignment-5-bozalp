@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SettingStack from './Settings/SettingStack';
-import Musics from './Musics';
+import MusicsHome from './MusicsHome';
 import Search from './Search';
 import Icons from '@expo/vector-icons/Ionicons';
 
@@ -11,7 +11,8 @@ const Tab = createBottomTabNavigator();
 const HomeScreens = () => {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Musics" component={Musics} options={{
+            <Tab.Screen name="MusicsHome" component={MusicsHome} options={{
+                title:"Musics",
                 tabBarIcon: ({ color }) => (
                     <Icons name='musical-notes-outline' size={24} color={color} />
                 )

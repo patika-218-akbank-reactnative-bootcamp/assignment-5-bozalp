@@ -4,7 +4,9 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-const Musics = () => {
+import MusicLine from '../Components/MusicLine';
+
+const Musics = ({ navigation }) => {
     const theme = useSelector((state) => state.theme.theme);
     const [musicList, setMusicList] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -12,21 +14,20 @@ const Musics = () => {
     async function fetchData() {
         try {
             const response = await axios
-                .get('https://api.musixmatch.com/ws/1.1/chart.artists.get?page=1&page_size=30&apikey=8159142c43bf8b82be3a1d09e28e1837');
-               // .get('https://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=&apikey=8159142c43bf8b82be3a1d09e28e1837');
-               // .get('https://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=1039&s_release_date=desc&g_album_name=1&apikey=8159142c43bf8b82be3a1d09e28e1837');
+                .get('https://api.deezer.com/playlist/1479458365/tracks');
             setLoading(false);
-           // console.log(response.data.message.body.artist_list);
-            setMusicList(response.data.message.body.artist_list);
+            setMusicList(response.data.data);
         }
         catch (error) {
             console.log(error.toString());
         }
     }
-    //ilk acildiginda selectedTab guncelleniyor. Ya da selectedTab degistiginde baska bir fetch islemi yapiyorum.
+    
     useEffect(() => {
         fetchData();
     }, []);
+
+    const renderMusics = ({ item }) => <MusicLine navigation={navigation} musics={item} />
 
     return (
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
@@ -35,11 +36,7 @@ const Musics = () => {
                     :
                     <FlatList
                         data={musicList}
-                        renderItem={({ item }) => <View>
-                            <Text >
-                               {item.artist.artist_name}
-                            </Text>
-                        </View>}
+                        renderItem={renderMusics}
                     />
             }
         </View>
